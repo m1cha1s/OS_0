@@ -27,8 +27,21 @@ void puts(char *string)
     unsigned short index = CursorPosition;
     while(*charPtr != 0)
     {
-        *(VGA_MEMORY + index * 2) = *charPtr;
-        index++;
+        switch (*charPtr)
+        {
+        case '\n':
+            index += VGA_WIDTH;
+            break;
+        
+        case '\r':
+            index -= index % VGA_WIDTH;
+            break;
+
+        default:
+            *(VGA_MEMORY + index * 2) = *charPtr;
+            index++;
+            break;
+        }
         charPtr++;
     }
     SetCursorPosition(index);
