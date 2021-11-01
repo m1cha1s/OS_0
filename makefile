@@ -1,9 +1,9 @@
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
-CC_FLAGS = -ffreestanding -m32 -g -c
+CC_FLAGS = -ffreestanding -m32 -g -c -Ttext 0x8000
 LD = /usr/local/i386elfgcc/bin/i386-elf-ld
 
-all: boot.bin full_kernel.bin zeroes.bin
-	cat "bin/boot.bin" "bin/full_kernel.bin" "bin/zeroes.bin"  > "bin/OS.bin"
+all: boot.bin kernel.bin zeroes.bin
+	cat "bin/boot.bin" "bin/kernel.bin" "bin/zeroes.bin"  > "bin/OS.bin"
 	
 
 
@@ -12,8 +12,8 @@ boot.bin:
 
 
 
-full_kernel.bin: kernel.o kernel_entry.o idt_c.o idt_asm.o mem.o isr_asm.o isr_c.o system.o IO.o
-	$(LD) -o "bin/full_kernel.bin" -Ttext 0x1000 "bin/kernel_entry.o" "bin/kernel.o" "bin/idt_c.o" "bin/idt_asm.o" "bin/mem.o" "bin/isr_asm.o" "bin/isr_c.o" "bin/system.o" "bin/IO.o" --oformat binary
+kernel.bin: kernel.o kernel_entry.o idt_c.o idt_asm.o mem.o isr_asm.o isr_c.o system.o IO.o
+	$(LD) -T"link.ld"
 
 kernel_entry.o:
 	nasm -f elf kernel/kernel_entry.asm -o bin/kernel_entry.o

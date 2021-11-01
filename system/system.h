@@ -3,7 +3,10 @@
 
 unsigned short PositionFromCords(unsigned char x, unsigned char y);
 void SetCursorPosition(unsigned short position);
+void ClearScreen(unsigned char color);
 
+
+void puts_color(char *string, unsigned char color);
 void puts(char *string);
 
 struct regs

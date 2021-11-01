@@ -1,6 +1,7 @@
 #include "kernel.h"
 #include "../system/system.h"
 #include "../cpu/idt/idt.h"
+#include "../CONSTANTS/TextModeColors.h"
 
 extern void main()
 {   
@@ -8,5 +9,6 @@ extern void main()
 
     idt_install();
 
+    for(;;);
     return;
 }
