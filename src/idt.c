@@ -1,6 +1,4 @@
-#include "idt.h"
-
-#include "../../memory/mem.h"
+#include "system.h"
 
 struct idt_entry
 {

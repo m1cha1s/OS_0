@@ -13,6 +13,8 @@ INPUT
     bin/isr_c.o
     bin/IO.o
     bin/system.o
+    bin/irq_asm.o
+    bin/irq_c.o
 )
 
 OUTPUT

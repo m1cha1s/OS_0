@@ -1,7 +1,6 @@
 #include "system.h"
-#include "../IO/IO.h"
-#include "../CONSTANTS/TextModeColors.h"
-#include "../CONSTANTS/typedefs.h"
+#include "TextModeColors.h"
+#include "typedefs.h"
 
 #define VGA_MEMORY (unsigned char*)0xb8000
 #define VGA_WIDTH 80
