@@ -15,6 +15,8 @@ INPUT
     bin/system.o
     bin/irq_asm.o
     bin/irq_c.o
+    bin/timer.o
+    bin/kb.o
 )
 
 OUTPUT

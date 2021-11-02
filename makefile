@@ -12,7 +12,7 @@ boot.bin:
 
 
 
-kernel.bin: kernel.o kernel_entry.o idt_c.o idt_asm.o mem.o isr_asm.o isr_c.o system.o IO.o irq_asm.o irq_c.o
+kernel.bin: kernel.o kernel_entry.o idt_c.o idt_asm.o mem.o isr_asm.o isr_c.o system.o IO.o irq_asm.o irq_c.o timer.o kb.o
 	$(LD) -T"link.ld"
 
 kernel_entry.o:
@@ -59,6 +59,13 @@ irq_asm.o:
 
 irq_c.o:
 	$(CC) $(CC_FLAGS) "src/irq.c" -o "bin/irq_c.o"
+
+
+timer.o:
+	$(CC) $(CC_FLAGS) "src/timer.c" -o "bin/timer.o"
+
+kb.o:
+	$(CC) $(CC_FLAGS) "src/kb.c" -o "bin/kb.o"
 
 
 clean:

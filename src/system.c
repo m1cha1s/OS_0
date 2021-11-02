@@ -2,9 +2,6 @@
 #include "TextModeColors.h"
 #include "typedefs.h"
 
-#define VGA_MEMORY (unsigned char*)0xb8000
-#define VGA_WIDTH 80
-
 unsigned short CursorPosition;
 
 void SetCursorPosition(unsigned short position)
@@ -69,6 +66,7 @@ void puts(char *string)
         {
         case '\n':
             index += VGA_WIDTH;
+            index -= index % VGA_WIDTH;
             break;
         
         case '\r':
@@ -84,4 +82,50 @@ void puts(char *string)
         charPtr++;
     }
     SetCursorPosition(index);
+}
+
+void putch(char ch)
+{
+    if(ch == '\n')
+    {
+        CursorPosition += VGA_WIDTH;
+        CursorPosition -= CursorPosition % VGA_WIDTH;
+    } 
+    else 
+    {
+        *(VGA_MEMORY + CursorPosition * 2) = ch;
+        *(VGA_MEMORY + CursorPosition * 2 + 1) = DEFAULT_COLOR;
+        CursorPosition++;
+    }
+    SetCursorPosition(CursorPosition);
+}
+
+void putch_color(char ch, unsigned char color)
+{
+    *(VGA_MEMORY + CursorPosition * 2) = ch;
+    *(VGA_MEMORY + CursorPosition * 2 + 1) = color;
+    CursorPosition++;
+    SetCursorPosition(CursorPosition);
+}
+
+int itoa(int num, unsigned char* str, int len, int base)
+{
+	int sum = num;
+	int i = 0;
+	int digit;
+	if (len == 0)
+		return -1;
+	do
+	{
+		digit = sum % base;
+		if (digit < 0xA)
+			str[i++] = '0' + digit;
+		else
+			str[i++] = 'A' + digit - 0xA;
+		sum /= base;
+	}while (sum && (i < (len - 1)));
+	if (i == (len - 1) && sum)
+		return -1;
+	str[i] = '\0';
+	return 0;
 }

@@ -1,13 +1,18 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#define VGA_MEMORY (unsigned char*)0xb8000
+#define VGA_WIDTH 80
+
 unsigned short PositionFromCords(unsigned char x, unsigned char y);
 void SetCursorPosition(unsigned short position);
 void ClearScreen(unsigned char color);
 
-
-void puts_color(char *string, unsigned char color);
+int itoa(int num, unsigned char* str, int len, int base);
+void putch(char ch);
+void putch_color(char ch, unsigned char color);
 void puts(char *string);
+void puts_color(char *string, unsigned char color);
 
 struct regs
 {
@@ -41,5 +46,12 @@ void irq_handler(struct regs* r);
 
 void isrs_install();
 void fault_handler(struct regs *r);
+
+void timer_phase(int hz);
+void timer_install();
+void timer_wait(int ticks);
+
+void keyboard_handler(struct regs *r);
+void keyboard_install();
 
 #endif
