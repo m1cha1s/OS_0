@@ -8,11 +8,14 @@ unsigned short PositionFromCords(unsigned char x, unsigned char y);
 void SetCursorPosition(unsigned short position);
 void ClearScreen(unsigned char color);
 
-int itoa(int num, unsigned char* str, int len, int base);
 void putch(char ch);
 void putch_color(char ch, unsigned char color);
 void puts(char *string);
 void puts_color(char *string, unsigned char color);
+
+void putsat(char *string, int x, int y);
+
+const char* numToStr(unsigned long val, int base);
 
 struct regs
 {
@@ -47,6 +50,14 @@ void irq_handler(struct regs* r);
 void isrs_install();
 void fault_handler(struct regs *r);
 
+struct time
+{
+    unsigned char seconds;
+    unsigned char minutes;
+    unsigned char houres;
+};
+
+struct time* get_time();
 void timer_phase(int hz);
 void timer_install();
 void timer_wait(int ticks);

@@ -2,9 +2,7 @@
 
 int timer_ticks = 0;
 
-int time_seconds = 0;
-int time_minutes = 0;
-int time_houres  = 0;
+struct time t;
 
 void timer_phase(int hz)
 {
@@ -19,38 +17,27 @@ void timer_handler(struct regs *r)
     timer_ticks++;
     if(timer_ticks % 18 == 0)
     {
-        if(time_seconds % 60 == 0)
+        if(t.seconds % 60 == 0 && t.seconds != 0)
         {
-            time_seconds = 0;
-            if(time_minutes % 60 == 0)
+            t.seconds = 0;
+            if(t.minutes % 60 == 0 && t.minutes != 0)
             {
-                time_minutes = 0;
-                if(time_houres % 24 == 0)
+                t.minutes = 0;
+                if(t.houres % 24 == 0 && t.houres != 0)
                 {
-                    time_houres = 0;
+                    t.houres = 0;
                 }
-                time_houres++;
+                t.houres++;
             }
-            time_minutes++;
+            t.minutes++;
         }
-        time_seconds++;
-
-        // unsigned char buf[10];
-        // unsigned char *bufPtr = buf;
-
-        // bufPtr++;
-        // // itoa(time_houres, buf, 2, 10);
-        // bufPtr+=3;
-        // // itoa(time_minutes, bufPtr, 2, 10);
-        // bufPtr+=3;
-        // itoa(time_seconds, bufPtr, 4, 10);
-
-        // buf[2] = '/';
-        // buf[5] = '/';
-
-        // for(int i = 0; i < 8; i++)
-        //     *(VGA_MEMORY + PositionFromCords(72+i,0) * 2) = buf[i];
+        t.seconds++;
     }
+}
+
+struct time* get_time()
+{
+    return &t;
 }
 
 void timer_install()

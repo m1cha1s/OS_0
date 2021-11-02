@@ -108,24 +108,54 @@ void putch_color(char ch, unsigned char color)
     SetCursorPosition(CursorPosition);
 }
 
-int itoa(int num, unsigned char* str, int len, int base)
+void putsat(char *string, int x, int y)
 {
-	int sum = num;
-	int i = 0;
-	int digit;
-	if (len == 0)
-		return -1;
-	do
-	{
-		digit = sum % base;
-		if (digit < 0xA)
-			str[i++] = '0' + digit;
-		else
-			str[i++] = 'A' + digit - 0xA;
-		sum /= base;
-	}while (sum && (i < (len - 1)));
-	if (i == (len - 1) && sum)
-		return -1;
-	str[i] = '\0';
-	return 0;
+    char* charPtr = string;
+    unsigned short index = PositionFromCords(x, y);
+    while(*charPtr != 0)
+    {
+        switch (*charPtr)
+        {
+        case '\n':
+            index += VGA_WIDTH;
+            index -= index % VGA_WIDTH;
+            break;
+        
+        case '\r':
+            index -= index % VGA_WIDTH;
+            break;
+
+        default:
+            *(VGA_MEMORY + index * 2) = *charPtr;
+            *(VGA_MEMORY + index * 2 + 1) = DEFAULT_COLOR;
+            index++;
+            break;
+        }
+        charPtr++;
+    }
+}
+
+char integerToStringOut[128];
+const char* numToStr(unsigned long val, int base)
+{
+    unsigned char size = 0;
+    unsigned long sizeTester = val;
+    while(sizeTester / base > 0)
+    {
+        sizeTester /= base;
+        size++;
+    }
+
+    unsigned char index = 0;
+    while(val / base > 0)
+    {
+        unsigned char rem = val % base;
+        val /= base;
+        integerToStringOut[size - index] = rem + 48;
+        index++;
+    }
+    unsigned char rem = val % base;
+    integerToStringOut[size - index] = rem + 48;
+    integerToStringOut[size+1] = 0;
+    return integerToStringOut;
 }
