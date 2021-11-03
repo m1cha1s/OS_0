@@ -32,6 +32,12 @@ void timer_handler(struct regs *r)
             t.minutes++;
         }
         t.seconds++;
+
+        putsat(numToStr(t.houres, 10), 35, 0);
+        putsat("/", 37, 0);
+        putsat(numToStr(t.minutes, 10), 38, 0);
+        putsat("/", 40, 0);
+        putsat(numToStr(t.seconds, 10), 41, 0);
     }
 }
 
