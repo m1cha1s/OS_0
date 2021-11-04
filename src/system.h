@@ -78,4 +78,17 @@ struct memory_map_entry
 void find_usable_memory_regions();
 void print_memory_map(struct memory_map_entry *mme);
 
+struct memory_segment_header
+{
+    unsigned long long memory_lenght;
+    struct memory_segment_header* next_segment;
+    struct memory_segment_header* previous_segment;
+    struct memory_segment_header* next_free_segment;
+    struct memory_segment_header* previous_free_segment;
+    char free;
+};
+
+void heap_init(unsigned long long heap_addr, unsigned long long heap_len);
+void* malloc(unsigned long long size);
+
 #endif

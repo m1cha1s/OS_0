@@ -17,6 +17,7 @@ INPUT
     bin/irq_c.o
     bin/timer.o
     bin/kb.o
+    bin/heap.o
 )
 
 OUTPUT

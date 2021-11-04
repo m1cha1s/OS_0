@@ -12,7 +12,7 @@ boot.bin:
 
 
 
-kernel.bin: kernel.o kernel_entry.o idt_c.o idt_asm.o mem.o isr_asm.o isr_c.o system.o IO.o irq_asm.o irq_c.o timer.o kb.o
+kernel.bin: kernel.o kernel_entry.o idt_c.o idt_asm.o mem.o isr_asm.o isr_c.o system.o IO.o irq_asm.o irq_c.o timer.o kb.o heap.o
 	$(LD) -T"link.ld"
 
 kernel_entry.o:
@@ -66,6 +66,9 @@ timer.o:
 
 kb.o:
 	$(CC) $(CC_FLAGS) "src/kb.c" -o "bin/kb.o"
+
+heap.o:
+	$(CC) $(CC_FLAGS) "src/heap.c" -o "bin/heap.o"
 
 
 clean:

@@ -16,15 +16,14 @@ extern void main()
 
     find_usable_memory_regions();
 
+    heap_init(0x100000, 0x100000);
+    void* test_memory_addr = malloc(60);
+
     putsat(numToStr(usable_memory_region_count, 10), 0, 0);
     SetCursorPosition(PositionFromCords(0, 1)) ;
     puts("Welcome to OS_0!\n\n");
 
-    for(int i = 0; i < usable_memory_region_count; i ++)
-    {
-        print_memory_map(usable_memory_regions[i]);
-        puts("\n");
-    }
+    puts(numToStr((unsigned long long)test_memory_addr, 10));
 
     __asm__ __volatile__ ("sti");
 
