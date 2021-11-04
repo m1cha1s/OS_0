@@ -4,6 +4,8 @@
 #define VGA_MEMORY (unsigned char*)0xb8000
 #define VGA_WIDTH 80
 
+#define memory_region_count (unsigned long)(*(unsigned char*)(0x7DFD))
+
 unsigned short PositionFromCords(unsigned char x, unsigned char y);
 void SetCursorPosition(unsigned short position);
 void ClearScreen(unsigned char color);
@@ -64,5 +66,16 @@ void timer_wait(int ticks);
 
 void keyboard_handler(struct regs *r);
 void keyboard_install();
+
+struct memory_map_entry
+{
+    unsigned long long base_address;
+    unsigned long long region_lenght;
+    unsigned long region_type;
+    unsigned long extended_attributes;
+};
+
+void find_usable_memory_regions();
+void print_memory_map(struct memory_map_entry *mme);
 
 #endif

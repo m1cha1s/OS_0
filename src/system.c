@@ -159,3 +159,39 @@ const char* numToStr(unsigned long val, int base)
     integerToStringOut[size+1] = 0;
     return integerToStringOut;
 }
+
+struct memory_map_entry* usable_memory_regions[10];
+unsigned char usable_memory_region_count = 0;
+
+
+void print_memory_map(struct memory_map_entry *mme)
+{
+    puts("Memory base: ");
+    puts(numToStr(mme->base_address, 10));
+    puts("\n");
+    puts("Region lenght: ");
+    puts(numToStr(mme->region_lenght, 10));
+    puts("\n");
+    puts("Memory type: ");
+    puts(numToStr(mme->region_type, 10));
+    puts("\n");
+    puts("Memory attributes: ");
+    puts(numToStr(mme->extended_attributes, 10));
+    puts("\n");
+}
+
+void find_usable_memory_regions()
+{
+    unsigned char usable_region_index;
+    for(unsigned char i = 0; i < memory_region_count; i ++)
+    {
+        struct memory_map_entry* mme = (struct memory_map_entry*)0x5000;
+        mme+=i;
+        if(mme->region_type == 1)
+        {
+            usable_memory_regions[usable_region_index] = mme;
+            usable_region_index++;
+            usable_memory_region_count++;
+        }
+    }
+}

@@ -39,11 +39,6 @@ diskError:
 
 BOOT_DISK: db 0
 
-global MemoryRegionCount
-
-MemoryRegionCount:
-    db 0
-
 DetectMemory:
     mov ax, 0
     mov es, ax
@@ -132,5 +127,7 @@ start_protected_mode:
 
                                      
  
-times 510-($-$$) db 0              
+times 509-($-$$) db 0              
+MemoryRegionCount:
+    db 0
 dw 0xaa55
